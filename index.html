@@ -11,20 +11,6 @@
   <body>
     <h1>Weather or Not</h1>
 
-    <div>
-      <table class="library">
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-          <th scope="col">Pages</th>
-          <th scope="col">Read</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </table>
-    </div>
-
-    <h3>Add a book!</h3>
-
     <div class="form">
       <form class="search-city" name="search-city">
         <label for="city">City</label>
@@ -32,8 +18,14 @@
         <input type="submit" />
       </form>
       <br />
-      <div class="error hide"></div>
     </div>
+
+    <div class="results">
+      <span id="main"></span>
+      <span id="description"></span>
+      <span id="temperature"></span>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>

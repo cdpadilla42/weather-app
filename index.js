@@ -1,9 +1,12 @@
 let temp;
 let desc;
 let main;
-function fetchData(searchValue) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&APPID=3071d7049f77d2a60a294f98fadfa6f3`,
+let city;
+let country;
+
+function fetchData(searchVal) {
+  return fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${searchVal}&APPID=3071d7049f77d2a60a294f98fadfa6f3`,
     {
       mode: 'cors'
     }
@@ -12,9 +15,7 @@ function fetchData(searchValue) {
       return result.json();
     })
     .then(result => {
-      // the question IS - how am I going to get this data to the other parts of the code that need it?
-      // does EVERYTHING need to be in the then function?? PROBABLY SO!!! Let's DOIT!
-      console.log(extractAPIData(result));
+      return result;
     })
     .catch(error => new Error('woops!'));
 }
@@ -23,28 +24,32 @@ function extractAPIData(weatherObj) {
   temp = weatherObj.main.temp;
   desc = weatherObj.weather[0].description;
   main = weatherObj.weather[0].main;
+  city = weatherObj.name;
+  country = weatherObj.sys.country;
 
-  return { temp, desc, main };
+  return { temp, desc, main, city, country };
+}
+
+function renderResults(neededResultsObj) {
+  const mainElem = document.querySelector('#main');
+  const descElm = document.querySelector('#description');
+  const tempElm = document.querySelector('#temperature');
+
+  // Is this a chance for OBJECT DESTRUCTURING???
+
+  const { temp, desc, main, city, country } = neededResultsObj;
+
+  mainElem.innerText = main;
+  descElm.innerText = desc;
+  tempElm.innerText = temp;
 }
 
 async function onFormSubmit(e) {
-  // e.preventDefault();
-  // get values from form
+  e.preventDefault();
   const searchVal = document.querySelector('#city').value;
-  // submit into fetch function
   const fetchResults = await fetchData(searchVal);
-  console.log(fetchResults);
-  // extract necessary data
   const neededResults = extractAPIData(fetchResults);
-  // render the page (console.log)
-  console.log(neededResults);
+  renderResults(neededResults);
 }
 
-// API Key:
-// 3071d7049f77d2a60a294f98fadfa6f3
-
-// Grab:
-// Main (sunny, cloudy, rain)
-// Temperature (in Kelvin first)
-// Wind
-// Funny picture based off main haha
+document.querySelector('.form').addEventListener('submit', onFormSubmit);
