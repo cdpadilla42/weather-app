@@ -1,0 +1,17 @@
+body {
+  background-color: teal;
+  text-align: center;
+}
+
+h1 {
+  display: block;
+  text-align: center;
+}
+
+h2 {
+  color: darkgrey;
+}
+
+.instructions {
+  color: darkgrey;
+}
